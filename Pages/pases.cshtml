@@ -148,18 +148,19 @@
 
     <h2>Pases de salida para docentes</h2>
 
-    <form class="form-grid">
+    <form method="post" class="form-grid">
 
         <div class="form-group">
 
             <label>Nombre del docente</label>
 
-            <input type="text"
+            <input asp-for="NuevoDocente.Nombre"
+                   type="text"
                    placeholder="Escriba el nombre del docente..." />
 
         </div>
 
-        <button class="btn">
+        <button type="submit" class="btn">
 
             Agregar Docente
 
@@ -191,51 +192,43 @@
 
         <tbody>
 
-            <tr>
+            @foreach (var docente in Model.ListaDocentes)
+            {
+                <tr>
 
-                <td>Bertha Rosario Rivera Ramírez</td>
+                    <td>@docente.Nombre</td>
 
-                <td>
+                    <td>
 
-                    <button class="btnPase"
-                            onclick="abrirModal()">
+                        <button class="btnPase"
+                                type="button"
+                                onclick="abrirModal('@docente.Nombre')">
 
-                        Generar Pase
+                            Generar Pase
 
-                    </button>
+                        </button>
 
-                    <button class="btnEliminar">
+                        <form method="post"
+                              asp-page-handler="Eliminar"
+                              style="display:inline;">
 
-                        Eliminar
+                            <input type="hidden"
+                                   name="id"
+                                   value="@docente.Id" />
 
-                    </button>
+                            <button type="submit"
+                                    class="btnEliminar">
 
-                </td>
+                                Eliminar
 
-            </tr>
+                            </button>
 
-            <tr>
+                        </form>
 
-                <td>Juan Pérez López</td>
+                    </td>
 
-                <td>
-
-                    <button class="btnPase"
-                            onclick="abrirModal()">
-
-                        Generar Pase
-
-                    </button>
-
-                    <button class="btnEliminar">
-
-                        Eliminar
-
-                    </button>
-
-                </td>
-
-            </tr>
+                </tr>
+            }
 
         </tbody>
 
@@ -247,6 +240,8 @@
 
 
 <div class="modal" id="modalPase">
+
+    <form method="post" asp-page-handler="GenerarPase">
 
     <div class="modal-content">
 
@@ -260,7 +255,9 @@
 
                 <label>Docente</label>
 
-                <input type="text" readonly value="Bertha Rosario Rivera Ramírez" />
+                <input id="nombreDocente"
+                       asp-for="NuevoPase.NombreDocente"
+                       readonly />
 
             </div>
 
@@ -268,7 +265,8 @@
 
                 <label>Fecha</label>
 
-                <input type="date" />
+                <input asp-for="NuevoPase.Fecha"
+                       type="date" />
 
             </div>
 
@@ -276,7 +274,8 @@
 
                 <label>Hora de salida</label>
 
-                <input type="time" />
+                <input asp-for="NuevoPase.HoraSalida"
+                       type="time" />
 
             </div>
 
@@ -284,7 +283,8 @@
 
                 <label>Hora de regreso</label>
 
-                <input type="time" />
+                <input asp-for="NuevoPase.HoraRegreso"
+                       type="time" />
 
             </div>
 
@@ -296,7 +296,8 @@
 
             <label>Motivo</label>
 
-            <textarea rows="4"></textarea>
+            <textarea asp-for="NuevoPase.Motivo"
+                      rows="4"></textarea>
 
         </div>
 
@@ -306,7 +307,8 @@
 
             <label>Observaciones</label>
 
-            <textarea rows="3"></textarea>
+            <textarea asp-for="NuevoPase.Observaciones"
+                      rows="3"></textarea>
 
         </div>
 
@@ -320,16 +322,18 @@
 
             </button>
 
-            <button class="btn"
-                    type="button">
+                <button class="btn"
+                        type="submit">
 
-                Generar PDF
+                    Generar PDF
 
-            </button>
+                </button>
 
         </div>
 
     </div>
+
+            </form>
 
 </div>
 
@@ -337,9 +341,11 @@
 
 <script>
 
-    function abrirModal(){
+    function abrirModal(nombre){
 
         document.getElementById("modalPase").style.display="block";
+
+        document.getElementById("nombreDocente").value = nombre;
 
     }
 

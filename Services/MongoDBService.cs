@@ -10,6 +10,8 @@ namespace controlcbtis.Services
         private readonly IMongoCollection<Articulo> _articulosCollection;
         private readonly IMongoCollection<Prestamo> _prestamosCollection;
         private readonly IMongoCollection<Usuario> _usuariosCollection;
+        private readonly IMongoCollection<Docente> _docentesCollection;
+        private readonly IMongoCollection<PaseSalida> _pasesCollection;
 
         public MongoDBService(IConfiguration configuration)
         {
@@ -20,6 +22,8 @@ namespace controlcbtis.Services
             _articulosCollection = database.GetCollection<Articulo>("Articulos");
             _prestamosCollection = database.GetCollection<Prestamo>("Prestamos");
             _usuariosCollection = database.GetCollection<Usuario>("Usuarios");
+            _docentesCollection = database.GetCollection<Docente>("Docentes");
+            _pasesCollection = database.GetCollection<PaseSalida>("PasesSalida");
         }
 
         public async Task<List<Alumno>> GetAlumnosAsync()
@@ -78,6 +82,36 @@ namespace controlcbtis.Services
             return await _usuariosCollection
                 .Find(u => u.Correo == correo && u.Password == password)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Docente>> GetDocentesAsync()
+        {
+            return await _docentesCollection.Find(_ => true).ToListAsync();
+        }
+
+        public async Task CreateDocenteAsync(Docente docente)
+        {
+            await _docentesCollection.InsertOneAsync(docente);
+        }
+
+        public async Task DeleteDocenteAsync(string id)
+        {
+            await _docentesCollection.DeleteOneAsync(d => d.Id == id);
+        }
+
+        public async Task<List<PaseSalida>> GetPasesSalidaAsync()
+        {
+            return await _pasesCollection.Find(_ => true).ToListAsync();
+        }
+
+        public async Task CreatePaseSalidaAsync(PaseSalida pase)
+        {
+            await _pasesCollection.InsertOneAsync(pase);
+        }
+
+        public async Task DeletePaseSalidaAsync(string id)
+        {
+            await _pasesCollection.DeleteOneAsync(p => p.Id == id);
         }
     }
 }
