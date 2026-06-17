@@ -37,9 +37,12 @@ namespace controlcbtis.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            NuevoPrestamo.FechaPrestamo = DateTime.Now;
+            var zonaHoraria = TimeZoneInfo.FindSystemTimeZoneById("America/Mazatlan");
+            NuevoPrestamo.FechaPrestamo = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, zonaHoraria);
+
             await _mongoService.CreatePrestamoAsync(NuevoPrestamo);
             await _mongoService.RestarArticuloAsync(NuevoPrestamo.Articulo);
+
             return RedirectToPage();
         }
     }

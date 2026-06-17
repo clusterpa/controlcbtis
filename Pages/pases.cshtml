@@ -1,0 +1,352 @@
+﻿@page
+@model controlcbtis.Pages.pasesModel
+@{
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f7fb;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        margin: 20px auto;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0,0,0,.05);
+        max-width: 1100px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 2fr auto;
+        gap: 15px;
+        align-items: end;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #4f46e5;
+    }
+
+    .btn {
+        background: #4f46e5;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: .3s;
+    }
+
+    .btn:hover {
+        background: #4338ca;
+    }
+
+    .btnEliminar {
+        background: #dc2626;
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .btnEliminar:hover {
+        background: #b91c1c;
+    }
+
+    .btnPase {
+        background: #16a34a;
+        color: white;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .btnPase:hover {
+        background: #15803d;
+    }
+
+    .tabla {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    .tabla th {
+        background: #4f46e5;
+        color: white;
+        padding: 12px;
+    }
+
+    .tabla td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .tabla tr:hover {
+        background: #f3f4ff;
+    }
+
+    
+
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.5);
+    }
+
+    .modal-content {
+        width: 650px;
+        background: white;
+        margin: 40px auto;
+        border-radius: 15px;
+        padding: 25px;
+    }
+
+    .modal-grid {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 15px;
+    }
+
+    textarea {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        resize: none;
+    }
+
+    .acciones{
+        margin-top:20px;
+        display:flex;
+        justify-content:end;
+        gap:10px;
+    }
+
+</style>
+
+
+<div class="card">
+
+    <h2>Pases de salida para docentes</h2>
+
+    <form class="form-grid">
+
+        <div class="form-group">
+
+            <label>Nombre del docente</label>
+
+            <input type="text"
+                   placeholder="Escriba el nombre del docente..." />
+
+        </div>
+
+        <button class="btn">
+
+            Agregar Docente
+
+        </button>
+
+    </form>
+
+</div>
+
+
+
+<div class="card">
+
+    <h3>Docentes registrados</h3>
+
+    <table class="tabla">
+
+        <thead>
+
+            <tr>
+
+                <th>Nombre</th>
+
+                <th width="300">Acciones</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <td>Bertha Rosario Rivera Ramírez</td>
+
+                <td>
+
+                    <button class="btnPase"
+                            onclick="abrirModal()">
+
+                        Generar Pase
+
+                    </button>
+
+                    <button class="btnEliminar">
+
+                        Eliminar
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td>Juan Pérez López</td>
+
+                <td>
+
+                    <button class="btnPase"
+                            onclick="abrirModal()">
+
+                        Generar Pase
+
+                    </button>
+
+                    <button class="btnEliminar">
+
+                        Eliminar
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+
+
+<div class="modal" id="modalPase">
+
+    <div class="modal-content">
+
+        <h2>Generar Pase de Salida</h2>
+
+        <br>
+
+        <div class="modal-grid">
+
+            <div class="form-group">
+
+                <label>Docente</label>
+
+                <input type="text" readonly value="Bertha Rosario Rivera Ramírez" />
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Fecha</label>
+
+                <input type="date" />
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Hora de salida</label>
+
+                <input type="time" />
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Hora de regreso</label>
+
+                <input type="time" />
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>Motivo</label>
+
+            <textarea rows="4"></textarea>
+
+        </div>
+
+        <br>
+
+        <div class="form-group">
+
+            <label>Observaciones</label>
+
+            <textarea rows="3"></textarea>
+
+        </div>
+
+        <div class="acciones">
+
+            <button class="btnEliminar"
+                    type="button"
+                    onclick="cerrarModal()">
+
+                Cancelar
+
+            </button>
+
+            <button class="btn"
+                    type="button">
+
+                Generar PDF
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+    function abrirModal(){
+
+        document.getElementById("modalPase").style.display="block";
+
+    }
+
+    function cerrarModal(){
+
+        document.getElementById("modalPase").style.display="none";
+
+    }
+
+</script>
