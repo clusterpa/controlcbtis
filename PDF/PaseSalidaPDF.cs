@@ -15,44 +15,75 @@ namespace controlcbtis.PDF
             {
                 container.Page(page =>
                 {
-                    page.Margin(30);
+                    page.Margin(35);
 
                     page.Content().Column(col =>
                     {
-                        col.Item().Text("CBTIS 224")
-                            .FontSize(22)
-                            .Bold();
+                        col.Item().AlignCenter().Text("CENTRO DE BACHILLERATO TECNOLÓGICO")
+                            .Bold().FontSize(16);
 
-                        col.Item().Text("PASE DE SALIDA")
-                            .FontSize(18)
-                            .Bold();
+                        col.Item().AlignCenter().Text("industrial y de servicios No. 224")
+                            .FontSize(13);
+
+                        col.Item().PaddingTop(8);
+
+                        col.Item().AlignCenter().Text("PASE DE SALIDA")
+                            .Bold()
+                            .FontSize(20);
+
+                        col.Item().PaddingTop(25);
+
+
+
+                        col.Item().Text($"Nombre del docente: {pase.NombreDocente}");
+
+                        col.Item().PaddingTop(10);
+
+
+                        col.Item().Text($"Fecha: {pase.Fecha:dd/MM/yyyy}");
+
+                        col.Item().PaddingTop(10);
+
+                        col.Item().Row(row =>
+                        {
+                            row.RelativeItem()
+                                .Text($"Hora de salida: {pase.HoraSalida}");
+
+                            row.RelativeItem()
+                                .Text($"Hora de regreso: {pase.HoraRegreso}");
+                        });
 
                         col.Item().PaddingTop(20);
 
-                        col.Item().Text($"Docente: {pase.NombreDocente}");
-                        col.Item().Text($"Fecha: {pase.Fecha.ToShortDateString()}");
-                        col.Item().Text($"Hora de salida: {pase.HoraSalida}");
-                        col.Item().Text($"Hora de regreso: {pase.HoraRegreso}");
+                        col.Item().Text("Asunto:")
+                            .Bold();
 
-                        col.Item().PaddingTop(10);
+                        col.Item().Border(1)
+                            .Padding(10)
+                            .Text(pase.Asunto);
 
-                        col.Item().Text("Motivo:");
-                        col.Item().Text(pase.Motivo);
+                        col.Item().PaddingTop(35);
 
-                        col.Item().PaddingTop(10);
+                        col.Item().Row(row =>
+                        {
+                            row.RelativeItem().Column(c =>
+                            {
+                                c.Item().Text("________________________");
+                                c.Item().AlignCenter().Text("Vo. Bo. Jefe de Departamento");
+                            });
 
-                        col.Item().Text("Observaciones:");
-                        col.Item().Text(pase.Observaciones);
+                            row.RelativeItem().Column(c =>
+                            {
+                                c.Item().Text("________________________");
+                                c.Item().AlignCenter().Text("Autoriza salida");
+                            });
+                        });
 
                         col.Item().PaddingTop(40);
 
-                        col.Item().Text("____________________________");
-                        col.Item().Text("Firma del Docente");
+                        col.Item().AlignCenter().Text("_______________________________");
 
-                        col.Item().PaddingTop(30);
-
-                        col.Item().Text("____________________________");
-                        col.Item().Text("Firma del Responsable");
+                        col.Item().AlignCenter().Text("Firma del Docente");
                     });
                 });
             }).GeneratePdf();

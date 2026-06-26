@@ -17,10 +17,6 @@ namespace controlcbtis.Models
 
         public string HoraRegreso { get; set; }
 
-        public string Motivo { get; set; }
-
-        public string Observaciones { get; set; }
-
-        public string Estado { get; set; }
+        public string Asunto { get; set; }
     }
 }
