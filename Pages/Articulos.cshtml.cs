@@ -27,13 +27,40 @@ namespace controlcbtis.Pages
             }
 
             ListaArticulos = await _mongoService.GetArticulosAsync();
-
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            await _mongoService.CreateArticuloAsync(NuevoArticulo);
+            if (string.IsNullOrEmpty(NuevoArticulo.Id))
+            {
+                await _mongoService.CreateArticuloAsync(NuevoArticulo);
+            }
+            else
+            {
+                await _mongoService.ActualizarArticuloAsync(NuevoArticulo);
+            }
+
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnGetEditarAsync(string id)
+        {
+            var articulo = (await _mongoService.GetArticulosAsync())
+                .FirstOrDefault(a => a.Id == id);
+
+            if (articulo != null)
+            {
+                NuevoArticulo = articulo;
+            }
+
+            ListaArticulos = await _mongoService.GetArticulosAsync();
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostEliminarAsync(string id)
+        {
+            await _mongoService.EliminarArticuloAsync(id);
             return RedirectToPage();
         }
     }
