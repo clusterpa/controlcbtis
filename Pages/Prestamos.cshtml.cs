@@ -41,7 +41,9 @@ namespace controlcbtis.Pages
             NuevoPrestamo.FechaPrestamo = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, zonaHoraria);
 
             await _mongoService.CreatePrestamoAsync(NuevoPrestamo);
-            await _mongoService.RestarArticuloAsync(NuevoPrestamo.Articulo);
+            await _mongoService.RestarArticuloAsync(
+    NuevoPrestamo.Articulo,
+    NuevoPrestamo.Cantidad);
 
             return RedirectToPage();
         }

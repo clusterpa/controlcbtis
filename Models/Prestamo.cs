@@ -12,6 +12,7 @@ namespace controlcbtis.Models
         public string NombreUsuario { get; set; }
         public string TipoUsuario { get; set; } 
         public string Articulo { get; set; }
+        public int Cantidad { get; set; }
         public DateTime FechaPrestamo { get; set; }
         public DateTime FechaEntrega { get; set; }
     }

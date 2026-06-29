@@ -188,26 +188,45 @@
     var lista = document.getElementById("sugerencias");
     var hidden = document.getElementById("alumnoSeleccionado");
 
-    input.addEventListener("keyup", function () {
-        var valor = input.value.toLowerCase();
+        function normalizar(texto) {
+        return texto
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/ñ/g, "n");
+    }
+
+        input.addEventListener("keyup", function () {
+
+        var valor = normalizar(input.value);
+
         lista.innerHTML = "";
 
-        if (valor === "") return;
+        if (valor === "")
+            return;
 
         alumnos.forEach(function (alumno) {
-            if (alumno.toLowerCase().includes(valor)) {
+
+            if (normalizar(alumno).includes(valor)) {
+
                 var li = document.createElement("li");
+
                 li.textContent = alumno;
 
                 li.onclick = function () {
+
                     input.value = alumno;
                     hidden.value = alumno;
                     document.getElementById("listaAlumnos").value = alumno;
                     lista.innerHTML = "";
+
                 };
 
                 lista.appendChild(li);
+
             }
+
         });
+
     });
 </script>
