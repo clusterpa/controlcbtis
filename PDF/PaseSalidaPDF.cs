@@ -16,7 +16,7 @@ namespace controlcbtis.PDF
                 Directory.GetCurrentDirectory(),
                 "wwwroot",
                 "images",
-                "encabezado.jpeg");
+                "encabezado.PNG");
 
             return Document.Create(container =>
             {
@@ -27,7 +27,6 @@ namespace controlcbtis.PDF
 
                     page.Content().Column(col =>
                     {
-                        // ENCABEZADO
                         if (File.Exists(rutaLogo))
                         {
                             col.Item()
@@ -45,7 +44,6 @@ namespace controlcbtis.PDF
 
                         col.Item().PaddingTop(20);
 
-                        // DATOS
 
                         col.Item().Text(text =>
                         {
@@ -86,7 +84,6 @@ namespace controlcbtis.PDF
 
                         col.Item().PaddingTop(20);
 
-                        // ASUNTO
 
                         col.Item().Text("Asunto:")
                             .Bold();
@@ -99,7 +96,6 @@ namespace controlcbtis.PDF
 
                         col.Item().PaddingTop(45);
 
-                        // FIRMAS
 
                         col.Item().Table(tabla =>
                         {
