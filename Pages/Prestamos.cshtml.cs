@@ -46,6 +46,6 @@ namespace controlcbtis.Pages
     NuevoPrestamo.Cantidad);
 
             return RedirectToPage();
-        }
+        } //cambio para subir a git xddddddddd
     }
 }
