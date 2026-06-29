@@ -188,56 +188,43 @@
 </div>
 
 <script>
-    var alumnos = [
-        @foreach (var alumno in Model.ListaAlumnos)
-        {
-                @: "@alumno.Nombre",
-        }
-    ];
+    var alumnos = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ListaAlumnos.Select(a => a.Nombre)));
 
     var input = document.getElementById("buscarAlumno");
     var lista = document.getElementById("sugerencias");
     var hidden = document.getElementById("alumnoSeleccionado");
 
-        function normalizar(texto) {
+    function normalizar(texto) {
+        if (!texto) return "";
         return texto
             .toLowerCase()
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/ñ/g, "n");
+            .replace(/[\u0300-\u036f]/g, "");
     }
 
-        input.addEventListener("keyup", function () {
+    input.addEventListener("keyup", function () {
 
         var valor = normalizar(input.value);
-
         lista.innerHTML = "";
 
-        if (valor === "")
-            return;
+        if (valor === "") return;
 
         alumnos.forEach(function (alumno) {
 
             if (normalizar(alumno).includes(valor)) {
 
                 var li = document.createElement("li");
-
                 li.textContent = alumno;
 
                 li.onclick = function () {
-
                     input.value = alumno;
                     hidden.value = alumno;
                     document.getElementById("listaAlumnos").value = alumno;
                     lista.innerHTML = "";
-
                 };
 
                 lista.appendChild(li);
-
             }
-
         });
-
     });
 </script>
