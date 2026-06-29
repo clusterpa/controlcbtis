@@ -136,6 +136,15 @@
         </div>
 
         <div class="form-group">
+            <label>Cantidad</label>
+            <input asp-for="NuevoPrestamo.Cantidad"
+                   type="number"
+                   min="1"
+                   value="1"
+                   required />
+        </div>
+
+        <div class="form-group">
             <label>Fecha de entrega</label>
             <input type="date" asp-for="NuevoPrestamo.FechaEntrega" required />
         </div>
@@ -156,6 +165,7 @@
                 <th>Nombre</th>
                 <th>Tipo</th>
                 <th>Artículo</th>
+                <th>Cantidad</th>
                 <th>Fecha Préstamo</th>
                 <th>Fecha Entrega</th>
             </tr>
@@ -168,6 +178,7 @@
                     <td>@p.NombreUsuario</td>
                     <td>@p.TipoUsuario</td>
                     <td>@p.Articulo</td>
+                    <td>@p.Cantidad</td>
                     <td>@p.FechaPrestamo</td>
                     <td>@p.FechaEntrega</td>
                 </tr>
