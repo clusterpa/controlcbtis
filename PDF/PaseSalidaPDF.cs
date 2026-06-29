@@ -27,120 +27,101 @@ namespace controlcbtis.PDF
 
                     page.Content().Column(col =>
                     {
-                        if (File.Exists(rutaLogo))
+                        col.Item().Row(row =>
                         {
-                            col.Item()
-                               .Image(rutaLogo)
-                               .FitWidth();
-                        }
+                            row.ConstantItem(90).Image(rutaLogo).FitWidth();
+
+                            row.RelativeItem().Column(text =>
+                            {
+                                text.Item().Text("SECRETARÍA DE EDUCACIÓN PÚBLICA")
+                                    .Bold().FontSize(10);
+
+                                text.Item().Text("DIRECCIÓN GENERAL DE EDUCACIÓN TECNOLÓGICA INDUSTRIAL Y DE SERVICIOS")
+                                    .FontSize(9);
+
+                                text.Item().Text("CENTRO DE BACHILLERATO TECNOLÓGICO INDUSTRIAL Y DE SERVICIO No. 224")
+                                    .Bold().FontSize(9);
+                            });
+                        });
 
                         col.Item().PaddingTop(10);
 
                         col.Item()
+                            .Border(1)
+                            .Padding(5)
                             .AlignCenter()
                             .Text("PASE DE SALIDA")
                             .Bold()
-                            .FontSize(20);
+                            .FontSize(18);
 
-                        col.Item().PaddingTop(20);
+                        col.Item().PaddingTop(15);
 
-
-                        col.Item().Text(text =>
+                        col.Item().Text(t =>
                         {
-                            text.Span("Nombre del docente: ").Bold();
-                            text.Span(pase.NombreDocente);
+                            t.Span("FECHA: ").Bold();
+                            t.Span(pase.Fecha.ToString("dd/MM/yyyy"));
                         });
 
-                        col.Item().PaddingTop(8);
+                        col.Item().PaddingTop(10);
 
-                        col.Item().Text(text =>
+                        col.Item().Text(t =>
                         {
-                            text.Span("Fecha: ").Bold();
-                            text.Span(pase.Fecha.ToString("dd/MM/yyyy"));
+                            t.Span("NOMBRE Y FIRMA DE QUIEN SOLICITA: ").Bold();
+                            t.Span(pase.NombreDocente);
                         });
 
-                        col.Item().PaddingTop(12);
+                        col.Item().PaddingTop(10);
 
-                        col.Item().Table(tabla =>
+                        col.Item().Row(row =>
                         {
-                            tabla.ColumnsDefinition(columns =>
+                            row.RelativeItem().Text(t =>
                             {
-                                columns.RelativeColumn();
-                                columns.RelativeColumn();
+                                t.Span("HORA DE SALIDA: ").Bold();
+                                t.Span(pase.HoraSalida);
                             });
 
-                            tabla.Cell().Text(text =>
+                            row.RelativeItem().AlignRight().Text(t =>
                             {
-                                text.Span("Hora de salida: ").Bold();
-                                text.Span(pase.HoraSalida);
-                            });
-
-                            tabla.Cell().AlignRight().Text(text =>
-                            {
-                                text.Span("Hora de regreso: ").Bold();
-                                text.Span(pase.HoraRegreso);
+                                t.Span("HORA DE REGRESO: ").Bold();
+                                t.Span(pase.HoraRegreso);
                             });
                         });
 
-                        col.Item().PaddingTop(20);
+                        col.Item().PaddingTop(15);
 
-
-                        col.Item().Text("Asunto:")
-                            .Bold();
+                        col.Item().Text("ASUNTO:").Bold();
 
                         col.Item()
                             .Border(1)
-                            .Padding(10)
-                            .Height(90)
+                            .Height(80)
+                            .Padding(5)
                             .Text(pase.Asunto);
 
-                        col.Item().PaddingTop(45);
+                        col.Item().PaddingTop(25);
 
-
-                        col.Item().Table(tabla =>
+                        col.Item().Row(row =>
                         {
-                            tabla.ColumnsDefinition(columns =>
-                            {
-                                columns.RelativeColumn();
-                                columns.ConstantColumn(60);
-                                columns.RelativeColumn();
-                            });
-
-                            tabla.Cell().Column(c =>
+                            row.RelativeItem().Column(c =>
                             {
                                 c.Item().LineHorizontal(1);
-
-                                c.Item()
-                                    .AlignCenter()
-                                    .Text("Vo. Bo. Jefe de Departamento")
-                                    .FontSize(10);
+                                c.Item().AlignCenter().Text("Vo.Bo. Jefe de Departamento").FontSize(9);
                             });
 
-                            tabla.Cell();
+                            row.RelativeItem();
 
-                            tabla.Cell().Column(c =>
+                            row.RelativeItem().Column(c =>
                             {
                                 c.Item().LineHorizontal(1);
-
-                                c.Item()
-                                    .AlignCenter()
-                                    .Text("Autoriza salida")
-                                    .FontSize(10);
+                                c.Item().AlignCenter().Text("Autoriza Salida Directo").FontSize(9);
                             });
                         });
 
-                        col.Item().PaddingTop(45);
+                        col.Item().PaddingTop(40);
 
                         col.Item().AlignCenter().Column(c =>
                         {
-                            c.Item()
-                                .Width(220)
-                                .LineHorizontal(1);
-
-                            c.Item()
-                                .AlignCenter()
-                                .Text("Firma del Docente")
-                                .FontSize(10);
+                            c.Item().Width(200).LineHorizontal(1);
+                            c.Item().Text("Firma del Docente").FontSize(9).AlignCenter();
                         });
                     });
                 });
