@@ -9,10 +9,12 @@ namespace controlcbtis.Pages
     public class pasesModel : PageModel
     {
         private readonly MongoDBService _mongoService;
+        private readonly EmailService _emailService;
 
-        public pasesModel(MongoDBService mongoService)
+        public pasesModel(MongoDBService mongoService, EmailService emailService)
         {
             _mongoService = mongoService;
+            _emailService = emailService;
         }
 
         [BindProperty]
@@ -54,6 +56,8 @@ namespace controlcbtis.Pages
             await _mongoService.CreatePaseSalidaAsync(NuevoPase);
 
             var pdf = PaseSalidaPDF.Generar(NuevoPase);
+
+            await _emailService.EnviarPaseAsync(pdf);
 
             return File(pdf, "application/pdf", "PaseSalida.pdf");
         }

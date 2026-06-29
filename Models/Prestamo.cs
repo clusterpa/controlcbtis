@@ -10,7 +10,7 @@ namespace controlcbtis.Models
         public string Id { get; set; }
 
         public string NombreUsuario { get; set; }
-        public string TipoUsuario { get; set; } // Alumno o Maestro
+        public string TipoUsuario { get; set; } 
         public string Articulo { get; set; }
         public DateTime FechaPrestamo { get; set; }
         public DateTime FechaEntrega { get; set; }

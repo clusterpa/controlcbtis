@@ -7,7 +7,6 @@
         background: #f5f7fb;
     }
 
-    /* CARD */
     .card {
         background: white;
         padding: 20px;
@@ -17,7 +16,6 @@
         max-width: 1000px;
     }
 
-    /* FORM */
     .form-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -41,7 +39,6 @@
             outline: none;
         }
 
-    /* BOTONES */
     .btn {
         background: #4f46e5;
         color: white;
@@ -71,7 +68,6 @@
             background: #16a34a;
         }
 
-    /* TABLA */
     .tabla {
         width: 100%;
         border-collapse: collapse;
@@ -94,7 +90,6 @@
             background: #f1f5ff;
         }
 
-    /* FORM INLINE (editar/eliminar) */
     .inline-form {
         display: flex;
         gap: 5px;
@@ -150,13 +145,11 @@
                     <td>@alumno.Matricula</td>
                     <td>
 
-                        <!-- ELIMINAR -->
                         <form method="post" asp-page-handler="Delete" class="inline-form">
                             <input type="hidden" name="id" value="@alumno.Id" />
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
 
-                        <!-- EDITAR -->
                         <form method="post" asp-page-handler="Edit" class="inline-form">
                             <input type="hidden" name="Id" value="@alumno.Id" />
                             <input type="text" name="Nombre" value="@alumno.Nombre" />

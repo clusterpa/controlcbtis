@@ -8,6 +8,9 @@ builder.Services.AddSingleton<MongoDBService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+
+builder.Services.AddScoped<EmailService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
