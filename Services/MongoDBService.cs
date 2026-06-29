@@ -65,12 +65,20 @@ namespace controlcbtis.Services
         {
             await _prestamosCollection.InsertOneAsync(prestamo);
         }
-        public async Task RestarArticuloAsync(string nombreArticulo)
+        public async Task RestarArticuloAsync(string nombreArticulo, int cantidad)
         {
-            var filtro = Builders<Articulo>.Filter.Eq(a => a.Nombre, nombreArticulo);
-            var update = Builders<Articulo>.Update.Inc(a => a.Cantidad, -1);
+            var articulo = await _articulosCollection
+                .Find(a => a.Nombre == nombreArticulo)
+                .FirstOrDefaultAsync();
 
-            await _articulosCollection.UpdateOneAsync(filtro, update);
+            if (articulo != null)
+            {
+                articulo.Cantidad -= cantidad;
+
+                await _articulosCollection.ReplaceOneAsync(
+                    a => a.Id == articulo.Id,
+                    articulo);
+            }
         }
         public async Task CreateUsuarioAsync(Usuario usuario)
         {
