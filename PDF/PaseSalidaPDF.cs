@@ -2,6 +2,7 @@
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using controlcbtis.Models;
+using System.IO;
 
 namespace controlcbtis.PDF
 {
@@ -15,75 +16,115 @@ namespace controlcbtis.PDF
             {
                 container.Page(page =>
                 {
-                    page.Margin(35);
+                    page.Margin(30);
 
                     page.Content().Column(col =>
                     {
-                        col.Item().AlignCenter().Text("CENTRO DE BACHILLERATO TECNOLÓGICO")
-                            .Bold().FontSize(16);
 
-                        col.Item().AlignCenter().Text("industrial y de servicios No. 224")
-                            .FontSize(13);
+                        var rutaLogo = Path.Combine(
+                            Directory.GetCurrentDirectory(),
+                            "wwwroot",
+                            "images",
+                            "encabezado.jpeg");
+
+                        col.Item()
+                            .AlignCenter()
+                            .Height(95)
+                            .Image(rutaLogo);
 
                         col.Item().PaddingTop(8);
 
-                        col.Item().AlignCenter().Text("PASE DE SALIDA")
+                        col.Item()
+                            .AlignCenter()
+                            .Text("PASE DE SALIDA")
                             .Bold()
-                            .FontSize(20);
+                            .FontSize(22);
 
                         col.Item().PaddingTop(25);
 
 
-
-                        col.Item().Text($"Nombre del docente: {pase.NombreDocente}");
-
-                        col.Item().PaddingTop(10);
-
-
-                        col.Item().Text($"Fecha: {pase.Fecha:dd/MM/yyyy}");
+                        col.Item().Text(text =>
+                        {
+                            text.Span("Nombre del docente: ").Bold();
+                            text.Span(pase.NombreDocente);
+                        });
 
                         col.Item().PaddingTop(10);
+
+                        col.Item().Text(text =>
+                        {
+                            text.Span("Fecha: ").Bold();
+                            text.Span(pase.Fecha.ToString("dd/MM/yyyy"));
+                        });
+
+                        col.Item().PaddingTop(15);
 
                         col.Item().Row(row =>
                         {
-                            row.RelativeItem()
-                                .Text($"Hora de salida: {pase.HoraSalida}");
+                            row.RelativeItem().Text(text =>
+                            {
+                                text.Span("Hora de salida: ").Bold();
+                                text.Span(pase.HoraSalida);
+                            });
 
-                            row.RelativeItem()
-                                .Text($"Hora de regreso: {pase.HoraRegreso}");
+                            row.RelativeItem().AlignRight().Text(text =>
+                            {
+                                text.Span("Hora de regreso: ").Bold();
+                                text.Span(pase.HoraRegreso);
+                            });
                         });
 
-                        col.Item().PaddingTop(20);
+                        col.Item().PaddingTop(25);
+
 
                         col.Item().Text("Asunto:")
                             .Bold();
 
-                        col.Item().Border(1)
-                            .Padding(10)
+                        col.Item()
+                            .Border(1)
+                            .MinHeight(100)
+                            .Padding(12)
                             .Text(pase.Asunto);
 
-                        col.Item().PaddingTop(35);
+                        col.Item().PaddingTop(55);
+
 
                         col.Item().Row(row =>
                         {
                             row.RelativeItem().Column(c =>
                             {
-                                c.Item().Text("________________________");
-                                c.Item().AlignCenter().Text("Vo. Bo. Jefe de Departamento");
+                                c.Item().LineHorizontal(1);
+
+                                c.Item()
+                                    .AlignCenter()
+                                    .Text("Vo. Bo. Jefe de Departamento")
+                                    .FontSize(10);
                             });
+
+                            row.ConstantItem(80);
 
                             row.RelativeItem().Column(c =>
                             {
-                                c.Item().Text("________________________");
-                                c.Item().AlignCenter().Text("Autoriza salida");
+                                c.Item().LineHorizontal(1);
+
+                                c.Item()
+                                    .AlignCenter()
+                                    .Text("Autoriza salida")
+                                    .FontSize(10);
                             });
                         });
 
-                        col.Item().PaddingTop(40);
+                        col.Item().PaddingTop(45);
 
-                        col.Item().AlignCenter().Text("_______________________________");
+                        col.Item()
+                            .AlignCenter()
+                            .Width(230)
+                            .LineHorizontal(1);
 
-                        col.Item().AlignCenter().Text("Firma del Docente");
+                        col.Item()
+                            .AlignCenter()
+                            .Text("Firma del Docente")
+                            .FontSize(10);
                     });
                 });
             }).GeneratePdf();
