@@ -12,36 +12,40 @@ namespace controlcbtis.PDF
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
+            var rutaLogo = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                "images",
+                "encabezado.jpeg");
+
             return Document.Create(container =>
             {
                 container.Page(page =>
                 {
+                    page.Size(PageSizes.A4);
                     page.Margin(30);
 
                     page.Content().Column(col =>
                     {
+                        // ENCABEZADO
+                        if (File.Exists(rutaLogo))
+                        {
+                            col.Item()
+                               .Image(rutaLogo)
+                               .FitWidth();
+                        }
 
-                        var rutaLogo = Path.Combine(
-                            Directory.GetCurrentDirectory(),
-                            "wwwroot",
-                            "images",
-                            "encabezado.jpeg");
-
-                        col.Item()
-                            .AlignCenter()
-                            .Height(95)
-                            .Image(rutaLogo);
-
-                        col.Item().PaddingTop(8);
+                        col.Item().PaddingTop(10);
 
                         col.Item()
                             .AlignCenter()
                             .Text("PASE DE SALIDA")
                             .Bold()
-                            .FontSize(22);
+                            .FontSize(20);
 
-                        col.Item().PaddingTop(25);
+                        col.Item().PaddingTop(20);
 
+                        // DATOS
 
                         col.Item().Text(text =>
                         {
@@ -49,7 +53,7 @@ namespace controlcbtis.PDF
                             text.Span(pase.NombreDocente);
                         });
 
-                        col.Item().PaddingTop(10);
+                        col.Item().PaddingTop(8);
 
                         col.Item().Text(text =>
                         {
@@ -57,41 +61,56 @@ namespace controlcbtis.PDF
                             text.Span(pase.Fecha.ToString("dd/MM/yyyy"));
                         });
 
-                        col.Item().PaddingTop(15);
+                        col.Item().PaddingTop(12);
 
-                        col.Item().Row(row =>
+                        col.Item().Table(tabla =>
                         {
-                            row.RelativeItem().Text(text =>
+                            tabla.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn();
+                                columns.RelativeColumn();
+                            });
+
+                            tabla.Cell().Text(text =>
                             {
                                 text.Span("Hora de salida: ").Bold();
                                 text.Span(pase.HoraSalida);
                             });
 
-                            row.RelativeItem().AlignRight().Text(text =>
+                            tabla.Cell().AlignRight().Text(text =>
                             {
                                 text.Span("Hora de regreso: ").Bold();
                                 text.Span(pase.HoraRegreso);
                             });
                         });
 
-                        col.Item().PaddingTop(25);
+                        col.Item().PaddingTop(20);
 
+                        // ASUNTO
 
                         col.Item().Text("Asunto:")
                             .Bold();
 
                         col.Item()
                             .Border(1)
-                            .MinHeight(100)
-                            .Padding(12)
+                            .Padding(10)
+                            .Height(90)
                             .Text(pase.Asunto);
 
-                        col.Item().PaddingTop(55);
+                        col.Item().PaddingTop(45);
 
+                        // FIRMAS
 
-                        col.Item().Row(row =>
+                        col.Item().Table(tabla =>
                         {
-                            row.RelativeItem().Column(c =>
+                            tabla.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn();
+                                columns.ConstantColumn(60);
+                                columns.RelativeColumn();
+                            });
+
+                            tabla.Cell().Column(c =>
                             {
                                 c.Item().LineHorizontal(1);
 
@@ -101,9 +120,9 @@ namespace controlcbtis.PDF
                                     .FontSize(10);
                             });
 
-                            row.ConstantItem(80);
+                            tabla.Cell();
 
-                            row.RelativeItem().Column(c =>
+                            tabla.Cell().Column(c =>
                             {
                                 c.Item().LineHorizontal(1);
 
@@ -116,15 +135,17 @@ namespace controlcbtis.PDF
 
                         col.Item().PaddingTop(45);
 
-                        col.Item()
-                            .AlignCenter()
-                            .Width(230)
-                            .LineHorizontal(1);
+                        col.Item().AlignCenter().Column(c =>
+                        {
+                            c.Item()
+                                .Width(220)
+                                .LineHorizontal(1);
 
-                        col.Item()
-                            .AlignCenter()
-                            .Text("Firma del Docente")
-                            .FontSize(10);
+                            c.Item()
+                                .AlignCenter()
+                                .Text("Firma del Docente")
+                                .FontSize(10);
+                        });
                     });
                 });
             }).GeneratePdf();
