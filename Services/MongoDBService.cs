@@ -121,5 +121,17 @@ namespace controlcbtis.Services
         {
             await _pasesCollection.DeleteOneAsync(p => p.Id == id);
         }
+
+        public async Task ActualizarArticuloAsync(Articulo articulo)
+        {
+            await _articulosCollection.ReplaceOneAsync(
+                a => a.Id == articulo.Id,
+                articulo
+            );
+        }
+        public async Task EliminarArticuloAsync(string id)
+        {
+            await _articulosCollection.DeleteOneAsync(a => a.Id == id);
+        }
     }
 }

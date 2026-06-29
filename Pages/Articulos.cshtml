@@ -46,10 +46,20 @@
         border-radius: 10px;
         border: none;
         cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
     }
 
         .btn:hover {
             background: #4338ca;
+        }
+
+    .btn-edit {
+        background: #f59e0b;
+    }
+
+        .btn-edit:hover {
+            background: #d97706;
         }
 
     .tabla {
@@ -101,6 +111,8 @@
     <h2> Inventario</h2>
 
     <form method="post" class="form-grid">
+        <input type="hidden" asp-for="NuevoArticulo.Id" />
+
         <div class="form-group">
             <label>Nombre del artículo</label>
             <input type="text" asp-for="NuevoArticulo.Nombre" placeholder="Ej: Laptop, Proyector..." required />
@@ -125,6 +137,7 @@
             <tr>
                 <th>Nombre</th>
                 <th>Cantidad</th>
+                <th>Acciones</th>
             </tr>
         </thead>
 
@@ -133,6 +146,7 @@
             {
                 <tr>
                     <td>@art.Nombre</td>
+
                     <td>
                         @{
                             var clase = art.Cantidad > 10 ? "stock-alto"
@@ -143,6 +157,30 @@
                             @art.Cantidad
                         </span>
                     </td>
+
+                    <td>
+                        <a class="btn btn-edit"
+                           asp-page="./Articulos"
+                           asp-page-handler="Editar"
+                           asp-route-id="@art.Id">
+                            Editar
+                        </a>
+
+                        <form method="post"
+                              asp-page-handler="Eliminar"
+                              asp-route-id="@art.Id"
+                              style="display:inline;"
+                              onsubmit="return confirm('¿Seguro que quieres eliminar este artículo?');">
+
+                            <button type="submit"
+                                    class="btn"
+                                    style="background:#ef4444;">
+                                Eliminar
+                            </button>
+
+                        </form>
+                    </td>
+
                 </tr>
             }
         </tbody>
